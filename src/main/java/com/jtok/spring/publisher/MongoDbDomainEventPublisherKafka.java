@@ -34,7 +34,9 @@ public class MongoDbDomainEventPublisherKafka extends DomainEventPublisherKafkaS
 
     @PostConstruct
     private void initCollections() {
-        mongoTemplate.createCollection(DomainEvent.class);
+	try {	
+	  mongoTemplate.createCollection(DomainEvent.class);
+	} catch (Exception ex) {}	
     }
 
 
