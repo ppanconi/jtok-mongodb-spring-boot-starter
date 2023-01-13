@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
@@ -30,6 +31,13 @@ public class MongoDbDomainEventPublisherKafka extends DomainEventPublisherKafkaS
         super(repository, kafkaTemplate, context);
         this.mongoTemplate = mongoTemplate;
     }
+
+    @PostConstruct
+    private void initCollections() {
+        mongoTemplate.createCollection(DomainEvent.class);
+    }
+
+
 
     @Override
     void handlePublishingFailure(Throwable ex) {
